@@ -19,11 +19,29 @@ local function fatal(...)
     os.exit(1)
 end
 
+local AllowBoolValue = {
+    ["1"] = true,
+    ["0"] = false,
+    ["t"] = true,
+    ["f"] = false,
+    ["T"] = true,
+    ["F"] = false,
+    ["true"] = true,
+    ["false"] = false,
+    ["TRUE"] = true,
+    ["FALSE"] = false,
+    ["True"] = true,
+    ["False"] = false,
+}
+
 local function convert(t, val)
     if t == "string" then
         return val
     elseif t == "bool" then
-        return true
+        if val == nil then
+            return true
+        end
+        return AllowBoolValue[val]
     elseif t == "number" then
         return tonumber(val)
     else
