@@ -59,9 +59,16 @@ function flag.Parse(...)
     local args = {...}
     local argc = select("#", ...)
 
-    for i = 1, argc do
+    local stop = false
+    local i = 1
+    while i <= argc do
         local arg = args[i]
-        if arg:sub(1, 1) ~= "-" then
+        if stop or arg:sub(1, 1) ~= "-" then
+            table.insert(flag.args, arg)
+        elseif arg == "--" then
+            stop = true
+        elseif arg == "-" then
+            stop = true
             table.insert(flag.args, arg)
         else
             local k, v = arg:match("%-(.+)=(.+)")
@@ -113,6 +120,7 @@ function flag.Parse(...)
                 end
             end
         end
+        i = i + 1
     end
 end
 

@@ -11,7 +11,7 @@ local server = flag.Bool("server", false, "server")
 local dir = flag.String("dir", "/default", "dir")
 
 local function main()
-    flag.Parse("-flag=f", "-num", "1", "-dir", "/home", "-server", "True", "-bo2", "false", "-bo", "0")
+    flag.Parse("-flag=f", "-num", "1", "-dir", "/home", "-server", "True", "-bo2", "false", "-bo", "0", "--", "-a", "-b", "-c")
     assert(f[1] == "f")
     assert(b[1] == false)
     assert(n[1] == 1)
@@ -20,6 +20,10 @@ local function main()
     assert(client[1] == true)
     assert(server[1] == true)
     assert(dir[1] == "/home")
+
+    assert(flag.Args()[1] == "-a")
+    assert(flag.Args()[2] == "-b")
+    assert(flag.Args()[3] == "-c")
 end
 
 main()
